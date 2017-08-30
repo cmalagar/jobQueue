@@ -18,7 +18,7 @@ $ npm start
 
 Server should be started on port 3000.
 
-## API
+## API Endpoints
 
 ### POST /jobs
 
@@ -33,7 +33,7 @@ Content-Type: application/json
 {"url": "http://www.google.com"}
 ```
 
-Example Succsesful Response:
+Example Successful Response:
 
 ```http
 {
