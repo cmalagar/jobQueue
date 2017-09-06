@@ -10,6 +10,8 @@ Install dependencies:
 $ npm install
 ```
 
+Please ensure that you have MongoDB and Redis installed and running before starting the server.
+
 Start the server:
 
 ```bash
