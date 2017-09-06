@@ -3,7 +3,6 @@ module.exports = function (app) {
 
 	// Job Queue Routes
 	app.route('/jobs')
-		// .get(jobQueue.read_jobs)
 		.post(jobQueue.create_job);
 
 	app.route('/jobs/:jobId')

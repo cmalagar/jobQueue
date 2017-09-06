@@ -4,31 +4,27 @@ var mongoose = require('mongoose'),
 	kue = require('kue'),
 	queue = kue.createQueue();
 
-module.exports.create_job = (req, res, next) => {
-	var new_job = new Job({url: req.body.url});
+queue.process('New Job', 10, (job, done) => {
+	Job.findById(job.data._id, (err, job) => {
+		runJob(job);
+	});
 
-	new_job.save((err, job) => {
+	done && done();
+});
+
+module.exports.create_job = (req, res, next) => {
+	let new_job = new Job({url: req.body.url});
+
+	new_job.save((err) => {
 		if (err) {
 			return res.status(400).json('Invalid URL');
 		}
 
-		processResponse(res, job);
-
-		return runJob(job);	
-
-		next();
+		processResponse(res, new_job);
 	});
-};
 
-// module.exports.read_jobs = (req, res, next) => {
-// 	Job.find({}, (err, job) => {
-// 		if (err) {
-// 			return res.status(400).json('Invalid request');
-// 		}
-// 		return res.json(job);
-// 		next();
-// 	});
-// };
+	queue.create('New Job', new_job).save();
+};
 
 module.exports.read_job = (req, res, next) => {
 	Job.findById(req.params.jobId, (err, job) => {
