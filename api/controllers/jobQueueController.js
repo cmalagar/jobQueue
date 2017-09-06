@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
 	Job = mongoose.model('Jobs'),
-	http = require('http');
+	http = require('http'),
+	kue = require('kue'),
+	queue = kue.createQueue();
 
 module.exports.create_job = (req, res, next) => {
 	var new_job = new Job({url: req.body.url});
